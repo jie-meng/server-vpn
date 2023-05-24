@@ -28,7 +28,7 @@ def select_file(directory: str) -> str:
                 print("Invalid input. Please enter a valid number.")
         except ValueError:
             print("Invalid input. Please enter a valid number.")
-    
+
     return selected_file
 
 
