@@ -29,7 +29,8 @@ Before using this project, make sure you have the following:
    - Run the `install_clash.py` script to select and install the desired Clash binary.
 
 3. Configure the Clash service:
-   - Modify the Clash configuration file located at `/path/to/clash/config` to suit your needs.
+   - Copy the Clash configuration file (e.g., `config.yaml`) to the `~/.config/clash/` directory.
+   - Customize the Clash configuration file located at `~/.config/clash/config.yaml` to suit your needs.
 
 4. Start, stop, or check the status of the Clash service:
    - Execute the `autostart.py` script and select the appropriate option from the menu.
