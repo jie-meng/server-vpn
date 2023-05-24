@@ -4,23 +4,33 @@ import subprocess
 CLASH_SERVICE_FILE = '/lib/systemd/system/clash@.service'
 
 def reload_systemd():
-    subprocess.run(['systemctl', 'daemon-reload'])
+    command = ['systemctl', 'daemon-reload']
+    print(f'执行命令: {" ".join(command)}')
+    subprocess.run(command)
 
 def start_clash_service():
     username = get_current_username()
-    subprocess.run(['systemctl', 'start', f'clash@{username}'])
+    command = ['systemctl', 'start', f'clash@{username}']
+    print(f'执行命令: {" ".join(command)}')
+    subprocess.run(command)
 
 def stop_clash_service():
     username = get_current_username()
-    subprocess.run(['systemctl', 'stop', f'clash@{username}'])
+    command = ['systemctl', 'stop', f'clash@{username}']
+    print(f'执行命令: {" ".join(command)}')
+    subprocess.run(command)
 
 def get_clash_service_status():
     username = get_current_username()
-    subprocess.run(['systemctl', 'status', f'clash@{username}'])
+    command = ['systemctl', 'status', f'clash@{username}']
+    print(f'执行命令: {" ".join(command)}')
+    subprocess.run(command)
 
 def enable_autostart():
     username = get_current_username()
-    subprocess.run(['systemctl', 'enable', f'clash@{username}'])
+    command = ['systemctl', 'enable', f'clash@{username}']
+    print(f'执行命令: {" ".join(command)}')
+    subprocess.run(command)
     print(f'已设置 Clash 服务在开机时自启动')
 
 def get_current_username():
