@@ -5,7 +5,7 @@ import subprocess
 from crontab import CronTab
 
 CLASH_SERVICE_FILE = '/lib/systemd/system/clash@.service'
-CONFIG_JSON_FILE = 'config.json'
+CONFIG_JSON_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')
 
 def is_clash_service_running():
     username = get_current_username()
