@@ -7,9 +7,13 @@ from crontab import CronTab
 CLASH_SERVICE_FILE = '/lib/systemd/system/clash@.service'
 CONFIG_JSON_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.json')
 
+class Command:
+    def __init__(self, name, function):
+        self.name = name
+        self.function = function
+
 def is_clash_service_running():
     username = get_current_username()
-    command = ['systemctl', 'is-active', f'clash@{username}']
     result = subprocess.getoutput(f'systemctl is-active clash@{username}')
     return result == 'active'
 
@@ -107,49 +111,39 @@ def get_current_username():
     return os.getlogin()
 
 def prompt_menu():
+    commands = [
+        Command('安装 Clash 服务', install_clash_service),
+        Command('重新加载 systemd', reload_systemd),
+        Command('启动 Clash 服务', start_clash_service),
+        Command('停止 Clash 服务', stop_clash_service),
+        Command('重启 Clash 服务', restart_clash_service),
+        Command('查看 Clash 服务', get_clash_service_status),
+        Command('设置开机自启动', enable_autostart),
+        Command('更新 Clash 配置', update_config),
+        Command('设置 cron 任务', create_cron_job),
+        Command('查看 cron 任务', view_cron_jobs),
+        Command('删除 cron 任务', delete_cron_job),
+    ]
+
     while True:
         print('请选择操作：')
-        print('1. 安装 Clash 服务')
-        print('2. 重新加载 systemd')
-        print('3. 启动 Clash 服务')
-        print('4. 停止 Clash 服务')
-        print('5. 重启 Clash 服务')
-        print('6. 查看 Clash 服务')
-        print('7. 设置开机自启动')
-        print('8. 更新 Clash 配置')
-        print('9. 设置 cron 任务')
-        print('10. 查看 cron 任务')
-        print('11. 删除 cron 任务')
+        for i, command in enumerate(commands):
+            print(f'{i + 1}. {command.name}')
         print('0. 退出')
+
         choice = input('输入你的选择：')
-        if choice == '1':
-            install_clash_service()
-        elif choice == '2':
-            reload_systemd()
-        elif choice == '3':
-            start_clash_service()
-        elif choice == '4':
-            stop_clash_service()
-        elif choice == '5':
-            restart_clash_service()
-        elif choice == '6':
-            get_clash_service_status()
-        elif choice == '7':
-            enable_autostart()
-        elif choice == '8':
-            update_config()
-        elif choice == '9':
-            create_cron_job()
-        elif choice == '10':
-            view_cron_jobs()
-        elif choice == '11':
-            delete_cron_job()
-        elif choice == '0':
+        if choice == '0':
             break
-        else:
-            print('无效的选择')
+        try:
+            index = int(choice) - 1
+            command = commands[index]
+            if command.function is not None:
+                command.function()
+        except (ValueError, IndexError):
+            print('无效的选择，请重新输入。')
         
         print('')
+
 
 def install_clash_service():
     service_content = '''
