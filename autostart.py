@@ -10,8 +10,8 @@ CONFIG_JSON_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'co
 def is_clash_service_running():
     username = get_current_username()
     command = ['systemctl', 'is-active', f'clash@{username}']
-    result = subprocess.run(command, capture_output=True, text=True)
-    return 'active' in result.stdout
+    result = subprocess.getoutput(f'systemctl is-active clash@{username}')
+    return result == 'active'
 
 def reload_systemd():
     command = ['systemctl', 'daemon-reload']
