@@ -93,6 +93,16 @@ def view_cron_jobs():
     for job in cron:
         print(job)
 
+def delete_cron_job():
+    with open(CONFIG_JSON_FILE) as json_file:
+        data = json.load(json_file)
+        cron_setting = data['cronJob']
+    cron = CronTab(user=True)
+    command = f'{cron_setting["interpreter"]} {cron_setting["script"]} {cron_setting["argument"]}'
+    cron.remove_all(command=command)
+    cron.write()
+    print('已删除指定的 cron 任务')
+
 def get_current_username():
     return os.getlogin()
 
@@ -109,6 +119,7 @@ def prompt_menu():
         print('8. 更新 Clash 配置')
         print('9. 设置 cron 任务')
         print('10. 查看 cron 任务')
+        print('11. 删除 cron 任务')
         print('0. 退出')
         choice = input('输入你的选择：')
         if choice == '1':
@@ -131,6 +142,8 @@ def prompt_menu():
             create_cron_job()
         elif choice == '10':
             view_cron_jobs()
+        elif choice == '11':
+            delete_cron_job()
         elif choice == '0':
             break
         else:
