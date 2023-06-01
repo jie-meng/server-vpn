@@ -1,3 +1,9 @@
 {
-    "config_url": ""
+    "configUrl": "",
+    "cronJob": {
+        "interpreter": "python3",
+        "script": "/path/to/your/script.py",
+        "argument": "update_config",
+        "cron": "0 3 * * *"
+    }
 }
