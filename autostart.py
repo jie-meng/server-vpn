@@ -148,6 +148,8 @@ def prompt_menu():
             break
         else:
             print('无效的选择')
+        
+        print('')
 
 def install_clash_service():
     service_content = '''
